@@ -31,5 +31,17 @@ def add_task():
     conn.close()
     return redirect(url_for("index"))
 
+# Rota para deletar uma tarefa
 
-app.run()
+@app.route("/delete/<int:task_id>", methods=["POST"])
+def delete_task(task_id):
+    conn = sqlite3.connect("todo.db")
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM tasks WHERE id = ?', (task_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
+
+
+if __name__ == '__app__':
+    app.run(debug=True)
