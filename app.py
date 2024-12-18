@@ -41,7 +41,17 @@ def delete_task(task_id):
     conn.commit()
     conn.close()
     return redirect(url_for('index'))
+# Rota para marcar uma terafa como finalizada
+
+@app.route("/finish/<int:task_id>", methods=["POST"])
+def finish_task(task_id):
+    conn = sqlite3.connect("todo.db")
+    cursor = conn.cursor()
+    cursor.execute('UPDATE tasks SET status = "Finished" WHERE id = ?', (task_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
 
 
-if __name__ == '__app__':
+if __name__ == '__main__':
     app.run(debug=True)
